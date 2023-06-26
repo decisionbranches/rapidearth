@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+numpy
+pydantic
+python-dotenv
+scikit-learn
+faiss-cpu
+pyproj
+tqdm

@@ -1,0 +1,15 @@
+# Requirements for Satellite Search
+fastapi==0.75.1
+uvicorn==0.17.6
+numpy==1.21.4
+#gdal
+rasterio==1.2.10
+boto3
+pydantic[dotenv]
+pyproj
+asyncio
+imageio
+more-itertools==8.13.0
+#dev
+pytest==7.1.2
+requests==2.27.1

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts -->
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@1.5.7/dist/lottie-player.js"></script>
+    <script src="../static/js/leaflet/leaflet.js"></script>
+
+    <!-- CSS Styling -->
+    <link rel="stylesheet" type="text/css" href="../static/js/leaflet/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/@bopen/leaflet-area-selection@0.6.1/dist/index.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/search.css">
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="satellite-search">
+
+        <!-- Sidebar -->
+        <div class="satellite-search__sidebar">
+
+            <!-- Sidebar Header -->
+            <div class="satellite-search__sidebar-header-container">
+
+                <!-- Map Navigation -->
+                <div class="satellite-search__sidebar-buttons">
+                    <div class="satellite-search__sidebar-button-container" title="Import">
+                        <input type="file" id="input-search-config" style="display:none">
+                        <div onclick="importSearch()" class="material-symbols-outlined">
+                            add
+                        </div>
+                    </div>
+                    <div class="satellite-search__sidebar-button-container" title="Export">
+                        <div onclick="exportSearch()" class="material-symbols-outlined" id="download-button">
+                            download
+                        </div>
+                    </div>
+                    <div class="satellite-search__sidebar-button-container" title="Help">
+                        <div onclick="showInfo();return false;" class="material-symbols-outlined">
+                            info
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- Mini Map -->
+            <div class="satellite-search__sidebar-minimap">
+            </div>
+
+            <!-- Search Results and Categories -->
+            <div id="satellite-search__sidebar-indextab-container" class="satellite-search__sidebar-indextab-container">
+
+                <div id="indextab__content" class="indextab__content">
+
+                    <!-- Search & Search Results -->
+                    <div class="sidebar-results-container">
+
+                        <!-- Clicked Cutout Display -->
+                        <div class="sidebar-results-history">
+
+                            <!-- Clicked Cutout Placeholder -->
+                            <div class="search-placeholder-intro container-fluid p-4">
+
+                                <div class="row">
+                                    <label class="p-0" for="searcher">Choose searcher:</label>
+                                </div>
+
+
+                                <div class="row mt-2">
+                                    <select class="form-select " name="selectSearcher" id="selectSearcher"></select>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <button class="btn btn-primary " onclick="search()" type="searchButton">Start
+                                        search</button>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <button class="btn btn-outline-danger" onclick="clearAll()"
+                                        type="resetButton">Reset</button>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm p-0">
+                                        <label id="status" class="form-check-label"> 
+                                            Area selection
+                                        </label>
+                                    </div>
+                                    <div class="col-sm ">
+                                        <div class="form-check form-switch mt-1">
+                                            <input class="form-check-input" id="toggleswitch" type="checkbox">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-sm p-0">
+                                        <label id="div-check-nonrare"  for="nonrare-range">Add random objects
+                                        </label>
+                                    </div>
+                                    <div class="col-sm ">
+                                        <input type="range" id="nonrare-range" name="nonrare-range" min="0" max="0" value="0" step="100">
+                                        <p><span id="nonrare-range-value">0</span></p>
+                                    </div>
+                                        
+                                </div>
+                                <div class="row">
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm p-0">
+                                        Found objects
+                                    </div>
+                                    <div class="col-sm ">
+                                        <span id="returned_objects">-</span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-sm p-0">
+                                        Query time
+                                    </div>
+                                    <div class="col-sm">
+                                        <span id="query_time">-</span> s
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <!-- Search Result Images -->
+                            <div id="sidebar-results-images" class="satellite-search__results">
+                                <div class="image-grid">
+                                    <div class="row">
+                                      <div class="col-6" id="image-container-1">
+                                      </div>
+                                      <div class="col-6" id="image-container-2">
+                                      </div>
+                                    </div>
+                                  </div>
+
+                            </div>
+                            <div id="loadingOverlaySidebar" style="
+                              position: absolute;
+                              top: 0;
+                              width: 100%;
+                              background-color: rgba(65, 65, 65, 0);
+                              z-index: 20;
+                              transition: opacity 0.1s;
+                              opacity: 0;
+                              display: none;
+                              ">
+                                <lottie-player autoplay loop mode="normal"
+                                    src="https://assets10.lottiefiles.com/packages/lf20_z5z4nn68.json"
+                                    style="width: 45%; margin: 0 auto;">
+                                </lottie-player>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="infobox" class="infobox" style="display:none">
+            <p>This is our prototype based on the article <b>"Fast Search-By-Classification for Large-Scale Databases Using 
+                Index-Aware Decision Trees and Random Forests"</b><br> 
+            Within this prototype you can search for rare objects in a large database of satellite images of Denmark using a Search-By-Classification approach.
+            If you zoom in close enough you can select patches and label them as positive (left mouse click) or negative (right mouse click) according to your query intent <a href="#footnote-1">[1]</a>. 
+            We provide you some test cases with pre-labeled patches of interesting objects on the sidebar which you can use for some experimenting. Click on the respective object and you will be 
+            redirected to the location of the object.
+            Then, select your searcher. You can choose between decisionbranches models, ensembles of decisionbranches, 
+            classic tree based models like decision trees or random forests or even use nearest neighboar search directly <a href="#footnote-2">[2]</a>.
+            Via the range slider "Add random objects" you can add randomly sampled negative objects to the query to decrease the number of false positives.
+            You can start a search by clicking on the "Start search" button. On the sidebar found objects will be showed and you can jump to their location by clicking on the image.
+            On the map, found objects are shown as yellow patches, objects that have been found and are contained in the training set as positive are marked as green patches. 
+            If you are not satisfied with your results, you can fine-tune the query by adding new positive or negative patches based on the returned objects.
+            </p>
+            <p id="footnote-1">[1] You can mark a whole area with negative patches by turning on the switch button "Area selection" and then selecting the area via Cntrl + left mouse click.</p> 
+            <p id="footnote-2">[2] Only on a few randomly selected features.</p> 
+        
+            <button onclick="hideInfo()">Close</button>
+        </div>
+
+        <!-- Big Map -->
+        <div class="satellite-search__map">
+            <!-- Map -->
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <script src="../static/js/plugins/Map.SelectArea.js"></script>
+    <script src="../static/js/plugins/nouislider.min.js"></script>
+    <script src="../static/js/plugins/Control.MiniMap.js"></script>
+    <script src="../static/js/mapInit.js"></script>
+    <script src="../static/js/grid.js"></script>
+    <script src="../static/js/search.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  labels:
+    app: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: ps-satdat-prod
+      containers:
+        - name: web
+          image: zivgitlab.wwu.io/c_luel01/ps_efsd/web:latest
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - mountPath: /usr/src/app/satsearch/data_models
+              name: web-pv
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+            requests:
+              cpu: "0.5"
+              memory: "1Gi"
+          imagePullPolicy: Always
+      imagePullSecrets:
+        - name: registry-credentials
+      volumes:
+        - name: web-pv
+          hostPath:
+            path: /mnt/sat_disk/frontend
+            type: Directory

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% load static %}
+    <meta charset="utf-8" />
+    <script src="{% static 'js/leaflet/leaflet.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'js/leaflet/leaflet.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  </head>
+  <body>
+    <div id="map"></div>
+    <script src="{% static 'js/plugins/proj4.js' %}"></script>
+    <script src="{% static 'js/plugins/proj4leaflet.js' %}"></script>
+    <script src="{% static 'js/mapInit.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
+    <script src="{% static 'js/gridSelection.js' %}"></script>
+
+  </body>
+</html>

@@ -1,0 +1,10 @@
+# Requirements for Satellite Search
+django
+djangorestframework
+pytz
+django-cors-headers
+tzdata
+requests
+rasterio
+fiona
+pydantic
